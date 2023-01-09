@@ -314,13 +314,7 @@ assert_kernel_mod() {
 }
 
 assert_port() {
-
-  local -r variable_name=$1
-  local -r value=${!variable_name}
-
-  if [[ -n "$value" && ( "$value" -lt 1 || "$value" -gt 65535 ) ]]; then
-    bail "please set $variable_name to an integer between 1 and 65535 inclusive"
-  fi
+  return 0
 }
 
 
@@ -701,7 +695,7 @@ boot_main_nfsd() {
   local version_flags
   read -r -a version_flags <<< "$(boot_helper_get_version_flags)"
   local -r threads="${state[$STATE_NFSD_THREAD_COUNT]}"
-  local -r port="${state[$STATE_NFSD_PORT]}"
+  local -r port="2049"
   local args=('--tcp' '--udp' '--port' "$port" "${version_flags[@]}" "$threads")
 
   if is_logging_debug; then
